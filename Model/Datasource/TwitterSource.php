@@ -64,7 +64,7 @@ class TwitterSource extends DataSource {
 
 		switch (true) {
 			// assume model start by Tweet, if not : not implemented yet
-			case preg_match('/^Tweet/', get_class($model))':
+			case preg_match('/^Tweet/', get_class($model)):
 				// Check Twitter app credentials
 				if (!isset($this->config['consumer_key'])) {
 					throw new Exception('Invalid consumer key.');
@@ -371,5 +371,12 @@ class TwitterSource extends DataSource {
 		}
 		
 		return array_map(array($this, '_objectToArray'), $object);
+	}
+}
+
+if(!function_exists('gzdecode')) {
+	function gzdecode($data) 
+	{ 
+		 return gzinflate(substr($data,10,-8)); 
 	}
 }
