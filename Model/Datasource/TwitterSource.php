@@ -62,8 +62,9 @@ class TwitterSource extends DataSource {
 		$limit = !empty($queryData['limit']) ? $queryData['limit'] : 0;
 		$offset = !empty($queryData['offset']) ? $queryData['offset'] : 0;
 
-		switch (get_class($model)) {
-			case 'Tweet':
+		switch (true) {
+			// assume model start by Tweet, if not : not implemented yet
+			case preg_match('/^Tweet/', get_class($model))':
 				// Check Twitter app credentials
 				if (!isset($this->config['consumer_key'])) {
 					throw new Exception('Invalid consumer key.');
@@ -73,7 +74,7 @@ class TwitterSource extends DataSource {
 					throw new Exception('Invalid consumer secret.');
 				}
 
-				$conditions = $this->_extractFields($queryData['conditions'], 'Tweet');
+				$conditions = $this->_extractFields($queryData['conditions'], $model->alias);
 
 				// setup credentials
 				$consumerKey = $this->config['consumer_key'];
